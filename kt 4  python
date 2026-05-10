@@ -1,0 +1,104 @@
+class User:
+    count = 0
+    def __init__(self, name:str, login:str, password:str, grade:int):
+        self.__name = name
+        self.__login = login
+        self.__password = password
+        self.__grade = grade
+        if type(self) is User:
+            User.count += 1
+
+    @property
+    def name(self):
+        return self.__name
+    
+    @name.setter
+    def name(self, value):
+        self.__name = value
+    
+    @property
+    def login(self):
+        return self.__login
+    
+    @login.setter
+    def login(self, value):
+        print("Невозможно изменить логин!")
+
+    @property
+    def password(self):
+        return "*" * len(self.__password)
+    
+    @password.setter
+    def password(self, value):
+        self.__password = value
+
+    
+    @property
+    def grade(self):
+        return "Неизвестное св-во grade"
+    
+    @grade.setter
+    def grade(self, value):
+        print("Неизвестное св-во grade")
+    
+    def __lt__(self, other):
+        return self.__grade < other.__grade
+    
+    def __gt__(self, other):
+        return self.__grade > other.__grade
+    
+    def __eq__(self, other):
+        return self.__grade == other.__grade
+
+    def show_info(self):
+        print(f"Name: {self.__name}, login: {self.__login}")
+
+
+class SuperUser(User):
+    count = 0
+    def __init__(self, name:str, login:str, password:str, grade:int, role:str):
+        super().__init__(name, login, password, grade)
+        self.__role = role
+        SuperUser.count += 1
+
+    @property
+    def role(self):
+        return self.__role
+    
+    @role.setter
+    def role(self, value):
+        self.__role = value
+
+    def show_info(self):
+        print(f"Name: {self.name}, login: {self.login}, Role: {self.__role}")
+
+
+user1 = User('Larry', 'gigi', '23456', 1)
+user2 = User('Fury', 'gaser', '7656544', 6)
+user3 = User('Kilaura', 'jujura', '658', 8)
+admin = SuperUser('Liliput', 'hug', '45467874343546',10, 'admin')
+
+user1.show_info()
+admin.show_info()
+
+users = User.count
+admins = SuperUser.count
+
+print(f'Всего обычных пользователей: {users}')
+print(f'Всего супер-пользователей: {admins}')
+
+print(user1 < user2)
+print(admin > user3)
+print(user1 == user3)
+
+user3.__name = 'Malinas'
+user1.password = 'jajsjjfjie'
+
+print(user3.__name)
+print(user1.password)
+print(user2.login)
+
+user2.login = 'gay'
+
+print(user1.grade)
+admin.grade = 10
